@@ -1,0 +1,33 @@
+{
+  "name": "web-vr",
+  "version": "0.0.1",
+  "description": "Marker based AR demo",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brianZeng/web-ar.git"
+  },
+  "keywords": [
+    "ar",
+    "webgl"
+  ],
+  "author": "brian",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-plugin-syntax-class-properties": "^6.13.0",
+    "babel-plugin-syntax-flow": "^6.13.0",
+    "babel-plugin-transform-class-properties": "^6.11.5",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1",
+    "browserify-css": "^0.9.1",
+    "bundle-collapser": "^1.2.1",
+    "gulp": "^3.9.1",
+    "gulp-less": "^3.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-watchify": "^0.6.0",
+    "watchify": "^3.7.0"
+  }
+}
