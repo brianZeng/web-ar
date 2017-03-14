@@ -9,7 +9,7 @@ let rename = require('gulp-rename');
 let bundleCollapse = require('bundle-collapser/plugin');
 let exec = require('child_process').exec;
 gulp.task('js', buildScript({
-  src: 'src/*/index.js',
+  src: ['src/index.js', 'src/worker.js'],
   dest: 'build/js',
   rename: false,
   watch: true
@@ -24,8 +24,8 @@ function buildScript(options) {
           process.env.BABEL_ENV = options.babel || 'development';
           bundle.transform('babelify');
           bundle.transform('browserify-css', { autoInject: false, minify: true });
-          (options.ignore || []).forEach(i=>bundle.ignore(i));
-          forEach(options.alias, (relative, name)=>bundle.require(relative, {
+          (options.ignore || []).forEach(i => bundle.ignore(i));
+          forEach(options.alias, (relative, name) => bundle.require(relative, {
             expose: name,
             basedir: process.cwd()
           }))
