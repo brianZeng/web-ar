@@ -2,9 +2,9 @@
  * Created by brian on 10/03/2017.
  */
 declare var Flip: Flip;
-import { OpeningFilter } from './filters/OpeningFilter';
-import { SobelEdgeFilter } from './filters/SobelEdgeFilter';
-import { GLFilter } from './filters/GLFilter';
+import { OpeningFilter } from '../filters/OpeningFilter';
+import { SobelEdgeFilter } from '../filters/SobelEdgeFilter';
+import { GLFilter } from '../filters/GLFilter';
 export type ProcessFrame={
   x:number;
   y:number;

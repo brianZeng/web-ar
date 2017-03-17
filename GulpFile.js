@@ -9,7 +9,7 @@ let rename = require('gulp-rename');
 let bundleCollapse = require('bundle-collapser/plugin');
 let exec = require('child_process').exec;
 gulp.task('js', buildScript({
-  src: ['src/index.js', 'src/worker.js'],
+  src: 'src/*.js',
   dest: 'build/js',
   rename: false,
   watch: true

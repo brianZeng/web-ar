@@ -5,8 +5,10 @@ export type NeuralNetConstructor={
   classesCount:number;
   sampleWidth:number;
   sampleHeight:number;
+  json:Object|string;
 };
-const Vol = convnetjs.Vol;
+export const convnetjs = typeof window == "object" && window.convnetjs ? window.convnetjs : require('../../lib/convnet.min');
+export const Vol = convnetjs.Vol;
 
 export class NeuralNet {
   volSize: number[];
@@ -14,15 +16,19 @@ export class NeuralNet {
   constructor(arg: NeuralNetConstructor) {
     let net = this.net = new convnetjs.Net();
     this.volSize = [arg.sampleWidth, arg.sampleHeight];
-    let layer_defs = [];
-    layer_defs.push({ type: 'input', out_sx: arg.sampleWidth, out_sy: arg.sampleHeight, out_depth: 1 });
-    layer_defs.push({ type: 'conv', sx: 5, filters: 8, stride: 1, pad: 2, activation: 'relu' });
-    layer_defs.push({ type: 'pool', sx: 2, stride: 2 });
-    layer_defs.push({ type: 'conv', sx: 5, filters: 16, stride: 1, pad: 2, activation: 'relu' });
-    layer_defs.push({ type: 'pool', sx: 3, stride: 3 });
-    layer_defs.push({ type: 'softmax', num_classes: arg.classesCount || 2 });
-    net.makeLayers(layer_defs);
     this.trainer = new convnetjs.SGDTrainer(net, { method: 'adadelta', batch_size: 20, l2_decay: 0.001 });
+    if (arg.json) {
+      this.loadJSON(arg.json);
+    } else {
+      let layer_defs = [];
+      layer_defs.push({ type: 'input', out_sx: arg.sampleWidth, out_sy: arg.sampleHeight, out_depth: 1 });
+      layer_defs.push({ type: 'conv', sx: 5, filters: 8, stride: 1, pad: 2, activation: 'relu' });
+      layer_defs.push({ type: 'pool', sx: 2, stride: 2 });
+      layer_defs.push({ type: 'conv', sx: 5, filters: 16, stride: 1, pad: 2, activation: 'relu' });
+      layer_defs.push({ type: 'pool', sx: 3, stride: 3 });
+      layer_defs.push({ type: 'softmax', num_classes: arg.classesCount || 2 });
+      net.makeLayers(layer_defs);
+    }
   }
 
   train(v, label) {

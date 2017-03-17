@@ -1,39 +1,26 @@
 /**
  * Created by brian on 13/03/2017.
  */
-const task = new Flip.GL.Task({
-  name: 'test-gl'
-});
-
-export function init(fullScreen) {
-  let cvs = task.canvas = Flip.$('#gl-cvs');
-  if (fullScreen) {
-    resize();
-    window.addEventListener('resize', resize)
-  }
+import {
+  GLRenderPipeline,
+  CANVAS_DISPLAY_MODE_FULL_SCREEN,
+  CANVAS_DISPLAY_MODE_ORIGIN
+} from '../animations/base/GLRenderPipeline'
+let task: GLRenderPipeline;
+export function init({ fullScreen, drawers }) {
+  const canvas = Flip.$('#gl-cvs');
+  task = new GLRenderPipeline({
+    name: 'test-gl',
+    canvas,
+    displayMode: fullScreen ? CANVAS_DISPLAY_MODE_FULL_SCREEN : CANVAS_DISPLAY_MODE_ORIGIN,
+    clear: Flip.GL.COLOR_BUFFER_BIT
+  });
   task.init({ preserveDrawingBuffer: true });
   Flip.instance.add(task);
-  function resize() {
-    cvs.width = document.documentElement.clientWidth;
-    cvs.height = document.documentElement.clientHeight;
-  }
+  drawers.forEach(d => task.addDrawer(d));
 }
 export function setGLCanvasSize(width, height) {
   let cvs = Flip.$('#gl-cvs');
   cvs.width = width;
   cvs.height = height;
-}
-export function addScenes() {
-  for (let i = 0; i < arguments.length; i++) {
-    let scene = arguments[i];
-    task.add(scene);
-  }
-}
-export function createRenderTask(canvas, name): Flip.GL.Task {
-  let task = new Flip.GL.Task({ name, canvas });
-  task.init();
-  Flip(function () {
-    Flip.instance.add(task);
-  });
-  return task;
 }

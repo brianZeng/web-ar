@@ -3,10 +3,12 @@
  */
 import { getCameraVideoOfSizeAsync } from './util/webrtc';
 import { init, setGLCanvasSize, addScenes } from './util/setup';
-import { VideoStage } from './VideoStage';
+import { VideoStage } from './video-process/VideoStage';
 const processFrame = { x: 0, y: -.7, size: 64 };
 let stage = new VideoStage();
-
+let worker = new Worker(Flip.$('#worker').value);
+import { getVertexSunDrawer, getVertexSunDrawerAnimateParam } from './animations/sun/index';
+import { getMoonDrawer } from './animations/moon/index';
 getCameraVideoOfSizeAsync().then(function (result) {
   let video = result.video;
   let size = result.size;
@@ -15,9 +17,9 @@ getCameraVideoOfSizeAsync().then(function (result) {
   stage.source = video;
   setGLCanvasSize(size[0], size[1]);
   init();
-  addScenes(stage,createCaptureRender(Flip.$('#capture-cvs')));
+  let sun = getMoonDrawer(0.3);
+  addScenes(sun);
 });
-
 
 function createCaptureRender(canvas: HTMLCanvasElement) {
   let ctx: CanvasRenderingContext2D = canvas.getContext('2d');
