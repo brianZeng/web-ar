@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>train</title>
+    <script src="../lib/Flip.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        
+        .samples img {
+            margin: 5px;
+        }
+        
+        .hide {
+            display: none;
+        }
+        
+        img.select {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<canvas id="gl-cvs"></canvas>
+<div class="control">
+    <button class="capture">capture</button>
+    <label> for <select></select></label>
+    <button class="remove">remove samples</button>
+    <button class="train">train <span class="train-progress"></span></button>
+    <button class="test">test</button>
+    <button class="save">save</button>
+    <p class="test-result hide"></p>
+    <input class="save hide">
+    <div class="samples">
+    </div>
+</div>
+
+<canvas id="capture-cvs"></canvas>
+<script src="../build/js/train.js"></script>
+</body>
+</html>

@@ -67,7 +67,7 @@ export class StarDrawer extends GLDrawer {
     this._clock = new Flip.Clock({
       duration: arg.shinningDuration || 12,
       infinite: true,
-      autoReverse: true
+      reverse: true
     });
     this._clock.start();
     return [scene];
@@ -76,7 +76,7 @@ export class StarDrawer extends GLDrawer {
   update(e) {
     super.update(e);
     this._clock.update(e);
-    this.lightOffset = this._clock.value * 4;
+    this.lightOffset = this._clock.current * 4;
   }
 
   reset(): StarDrawer {

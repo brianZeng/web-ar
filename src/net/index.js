@@ -4,6 +4,7 @@
 import { NeuralNet, Vol } from './NeuralNet';
 import type { NeuralNetConstructor } from './NeuralNet';
 let net: NeuralNet;
+export type { NeuralNetConstructor };
 export function setup(arg: NeuralNetConstructor) {
   net = new NeuralNet(arg);
 }

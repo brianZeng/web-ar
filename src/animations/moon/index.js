@@ -7,7 +7,7 @@ export type { MoonDrawer };
 export function getMoonDrawer(parse): MoonDrawer {
   let drawer = new MoonDrawer();
   drawer.moonColor = [254 / 255, 248 / 255, 200 / 255];
-  drawer.shadowByMoonPhrase(parse || 0.5, mapShadowX);
+  drawer.shadowByMoonPhrase(parse || 0.1, mapShadowX);
   return drawer;
 }
 function mapShadowX(x) {

@@ -5,18 +5,28 @@ declare var Flip: Flip;
 import { OpeningFilter } from '../filters/OpeningFilter';
 import { SobelEdgeFilter } from '../filters/SobelEdgeFilter';
 import { GLFilter } from '../filters/GLFilter';
+import { MirrorFilter } from '../filters/MirrorFilter';
+import { GLDrawer } from '../animations/base/GLDrawer';
 export type ProcessFrame={
   x:number;
   y:number;
   size:number;
 }
-export class VideoStage extends Flip.GL.Stage {
+export type VideoStageDelegate={
+  processFrameEnd:(stage: VideoStage, gl: WebGLRenderingContext)=>void;
+}
+export class VideoStage extends GLDrawer {
+  delegate: VideoStageDelegate;
 
-  createScenes() {
-    let edgeFilter = new SobelEdgeFilter({ name: 'edge', threshold: 0.6 });
+  createScenes(arg) {
+    let edgeFilter = new SobelEdgeFilter({ name: 'edge', threshold: 0.5 });
     let processFilter = new OpeningFilter({ name: 'process' });
-    let copyFilter = new GLFilter({ name: 'origin' });
+    let copyFilter = arg.debug ? new GLFilter({ name: 'origin' }) : new MirrorFilter({ name: 'origin' });
     edgeFilter.setTarget(processFilter);
+    let lastMesh = new Flip.GL.Mesh({});
+    lastMesh.render = (e) => this.delegate && this.delegate.processFrameEnd(this, e.gl);
+    processFilter.add(lastMesh);
+    this.delegate = arg.delegate;
     return [copyFilter, edgeFilter, processFilter];
   }
 
@@ -50,8 +60,8 @@ export class VideoStage extends Flip.GL.Stage {
 
   captureFrame(gl: WebGLRenderingContext, frame: ?ProcessFrame): ImageData {
     frame = frame || this.processFrame;
-    let cx = gl.drawingBufferWidth * (frame.x / 2 + .5);
-    let cy = gl.drawingBufferHeight * (frame.y / 2 + .5);
+    let cx = parseInt(gl.drawingBufferWidth * (frame.x / 2 + .5));
+    let cy = parseInt(gl.drawingBufferHeight * (frame.y / 2 + .5));
     let size = frame.size;
     let half = size / 2;
     let data = new Uint8Array(size * size * 4);

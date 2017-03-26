@@ -15,12 +15,13 @@ export class NeuralNet {
 
   constructor(arg: NeuralNetConstructor) {
     let net = this.net = new convnetjs.Net();
-    this.volSize = [arg.sampleWidth, arg.sampleHeight];
     this.trainer = new convnetjs.SGDTrainer(net, { method: 'adadelta', batch_size: 20, l2_decay: 0.001 });
     if (arg.json) {
       this.loadJSON(arg.json);
+
     } else {
       let layer_defs = [];
+      this.volSize = [arg.sampleWidth, arg.sampleHeight];
       layer_defs.push({ type: 'input', out_sx: arg.sampleWidth, out_sy: arg.sampleHeight, out_depth: 1 });
       layer_defs.push({ type: 'conv', sx: 5, filters: 8, stride: 1, pad: 2, activation: 'relu' });
       layer_defs.push({ type: 'pool', sx: 2, stride: 2 });
@@ -71,6 +72,8 @@ export class NeuralNet {
     let net = this.net = new convnetjs.Net();
     net.fromJSON(cfg);
     this.trainer.net = net;
+    let inputLayer = net.layers[0];
+    this.volSize = [+inputLayer.out_sx, +inputLayer.out_sy];
   }
 
   predict(v): Vol {

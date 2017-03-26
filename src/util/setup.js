@@ -7,15 +7,18 @@ import {
   CANVAS_DISPLAY_MODE_ORIGIN
 } from '../animations/base/GLRenderPipeline'
 let task: GLRenderPipeline;
-export function init({ fullScreen, drawers }) {
+export function init({ fullScreen, drawers, renders }) {
   const canvas = Flip.$('#gl-cvs');
   task = new GLRenderPipeline({
     name: 'test-gl',
     canvas,
-    displayMode: fullScreen ? CANVAS_DISPLAY_MODE_FULL_SCREEN : CANVAS_DISPLAY_MODE_ORIGIN,
+    display: fullScreen ? CANVAS_DISPLAY_MODE_FULL_SCREEN : CANVAS_DISPLAY_MODE_ORIGIN,
     clear: Flip.GL.COLOR_BUFFER_BIT
   });
   task.init({ preserveDrawingBuffer: true });
+  if (renders) {
+    renders.forEach(r => task.add(r));
+  }
   Flip.instance.add(task);
   drawers.forEach(d => task.addDrawer(d));
 }

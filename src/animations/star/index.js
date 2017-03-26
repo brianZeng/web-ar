@@ -22,7 +22,7 @@ export function getStarDrawer(): StarDrawer {
     dragMultiplier: 1 / 20
   });
   let randomPoints = starDrawer.randomPoints({
-    sizeRange: [2, 10],
+    sizeRange: [6, 18],
     posMin: [-5, 0.8, -5],
     posMax: [5, 1, 5],
     count: 320,

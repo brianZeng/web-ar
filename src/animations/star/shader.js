@@ -42,10 +42,10 @@ void main(){
   if(len >1.0){
     discard;
   }
-  float alpha = (1.0 - smoothstep(0.0,1.0,len)) * BASE_ALPHA * uGlobalOpacity;
+  float alpha = (1.0 - smoothstep(0.0,1.0,len)) * BASE_ALPHA;
   float shanningRadius = uShinningRadius[0] + shanningOffset() * uShinningRadius[1];
   alpha += (1.0 - smoothstep(0.0,shanningRadius,len)) * SHINNING_ALPHA;
-  gl_FragColor = vec4(vPointColor,alpha);
+  gl_FragColor = vec4(vPointColor,alpha * uGlobalOpacity);
 }
 float shanningOffset(){
   float noise = length(texture2D(uNoise,vNoiseIndex));
