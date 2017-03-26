@@ -1,30 +1,557 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';var _createClass=function(){function a(b,c){for(var e,d=0;d<c.length;d++)e=c[d],e.enumerable=e.enumerable||!1,e.configurable=!0,'value'in e&&(e.writable=!0),Object.defineProperty(b,e.key,e)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),_const=require(3);Object.defineProperty(exports,'__esModule',{value:!0}),exports.GLDrawer=void 0;function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError('Cannot call a class as a function')}function _possibleConstructorReturn(a,b){if(!a)throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');return b&&('object'==typeof b||'function'==typeof b)?b:a}function _inherits(a,b){if('function'!=typeof b&&null!==b)throw new TypeError('Super expression must either be null or a function, not '+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}var GLDrawer=exports.GLDrawer=function(a){function b(){return _classCallCheck(this,b),_possibleConstructorReturn(this,(b.__proto__||Object.getPrototypeOf(b)).apply(this,arguments))}return _inherits(b,a),_createClass(b,[{key:'viewportResize',value:function viewportResize(){}},{key:'type',get:function get(){return _const.ANIMATION_NONE}}]),b}(Flip.GL.Stage);
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GLDrawer = undefined;
+
+var _const = require(3);
+
+class GLDrawer extends Flip.GL.Stage {
+
+  viewportResize(v) {}
+
+  get type() {
+    return _const.ANIMATION_NONE;
+  }
+}
+exports.GLDrawer = GLDrawer; /**
+                              * Created by brian on 16/03/2017.
+                              */
 
 },{"3":3}],2:[function(require,module,exports){
-'use strict';var _createClass=function(){function a(b,c){for(var f,d=0;d<c.length;d++)f=c[d],f.enumerable=f.enumerable||!1,f.configurable=!0,'value'in f&&(f.writable=!0),Object.defineProperty(b,f.key,f)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),_get=function a(b,c,d){null===b&&(b=Function.prototype);var f=Object.getOwnPropertyDescriptor(b,c);if(f===void 0){var g=Object.getPrototypeOf(b);return null===g?void 0:a(g,c,d)}if('value'in f)return f.value;var h=f.get;return void 0===h?void 0:h.call(d)},_viewport=require(8);Object.defineProperty(exports,'__esModule',{value:!0}),exports.GLRenderPipeline=exports.CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL=exports.CANVAS_DISPLAY_MODE_ORIGIN=exports.CANVAS_DISPLAY_MODE_FULL_SCREEN=void 0;function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError('Cannot call a class as a function')}function _possibleConstructorReturn(a,b){if(!a)throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');return b&&('object'==typeof b||'function'==typeof b)?b:a}function _inherits(a,b){if('function'!=typeof b&&null!==b)throw new TypeError('Super expression must either be null or a function, not '+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}var CANVAS_DISPLAY_MODE_FULL_SCREEN=exports.CANVAS_DISPLAY_MODE_FULL_SCREEN='full-screen',CANVAS_DISPLAY_MODE_ORIGIN=exports.CANVAS_DISPLAY_MODE_ORIGIN='origin',CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL=exports.CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL='full-scroll',GLRenderPipeline=exports.GLRenderPipeline=function(a){function b(c){_classCallCheck(this,b);var d=_possibleConstructorReturn(this,(b.__proto__||Object.getPrototypeOf(b)).call(this,c));return d.dpi=c.dpi||_viewport.defaultDPI,d.canvas=c.canvas,d.viewport=d.getCanvasViewport(),d.canvasDisplayMode=c.display||CANVAS_DISPLAY_MODE_FULL_SCREEN,d.drawers=[],d}return _inherits(b,a),_createClass(b,[{key:'init',value:function init(c){_get(b.prototype.__proto__||Object.getPrototypeOf(b.prototype),'init',this).call(this,c)}},{key:'addDrawer',value:function addDrawer(c){return this.add(c)&&(c.parentPipeline=this,this.drawers.push(c),c.viewportResize(this.viewport)),this}},{key:'update',value:function update(c){if(!this.disabled){_get(b.prototype.__proto__||Object.getPrototypeOf(b.prototype),'update',this).call(this,c);var d=this.getCanvasParentViewport();(0,_viewport.viewportEquals)(this.parentViewport,d)||(this.alignCanvas(),this.parentViewport=d);var f=this.getCanvasViewport();(0,_viewport.viewportEquals)(this.viewport,f)||this.onViewportResize(f,c.gl),this.drawers.forEach(function(g){return!g.disabled&&g.update(c)})}}},{key:'onViewportResize',value:function onViewportResize(c,d){this.viewport=c,d&&d.viewport(0,0,c.width,c.height),this.drawers.forEach(function(f){f.viewportResize(c),f.invalid()})}},{key:'getCanvasParentViewport',value:function getCanvasParentViewport(){var c=this.canvas.parentElement;if(c){var d=this.canvasDisplayMode==CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL,f=d?c.scrollWidth:c.clientWidth,g=d?c.scrollHeight:c.clientHeight;return(0,_viewport.createViewport)(f,g,this.dpi)}return(0,_viewport.createViewport)(0,0,this.dpi)}},{key:'alignCanvas',value:function alignCanvas(){var c=this.canvasDisplayMode==CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL;(this.canvasDisplayMode==CANVAS_DISPLAY_MODE_FULL_SCREEN||c)&&(0,_viewport.alignCanvas)(this.canvas,{extendScroll:c})}},{key:'getCanvasViewport',value:function getCanvasViewport(){var c=this.canvas;return(0,_viewport.createViewport)(c.width,c.height,this.dpi)}}]),b}(Flip.GL.Task);
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GLRenderPipeline = exports.CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL = exports.CANVAS_DISPLAY_MODE_ORIGIN = exports.CANVAS_DISPLAY_MODE_FULL_SCREEN = undefined;
+
+var _viewport = require(8);
+
+const CANVAS_DISPLAY_MODE_FULL_SCREEN = exports.CANVAS_DISPLAY_MODE_FULL_SCREEN = 'full-screen'; /**
+                                                                                                  * Created by brian on 16/03/2017.
+                                                                                                  */
+const CANVAS_DISPLAY_MODE_ORIGIN = exports.CANVAS_DISPLAY_MODE_ORIGIN = 'origin';
+const CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL = exports.CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL = 'full-scroll';
+class GLRenderPipeline extends Flip.GL.Task {
+  constructor(arg) {
+    super(arg);
+    this.dpi = arg.dpi || _viewport.defaultDPI;
+    this.canvas = arg.canvas;
+    this.viewport = this.getCanvasViewport();
+    this.canvasDisplayMode = arg.display || CANVAS_DISPLAY_MODE_FULL_SCREEN;
+    this.drawers = [];
+  }
+
+  init(arg) {
+    super.init(arg);
+  }
+
+  addDrawer(drawer) {
+    if (this.add(drawer)) {
+      drawer.parentPipeline = this;
+      this.drawers.push(drawer);
+      drawer.viewportResize(this.viewport);
+    }
+    return this;
+  }
+
+  update(e) {
+    if (!this.disabled) {
+      super.update(e);
+      let parentViewport = this.getCanvasParentViewport();
+      if (!(0, _viewport.viewportEquals)(this.parentViewport, parentViewport)) {
+        this.alignCanvas();
+        this.parentViewport = parentViewport;
+      }
+      let viewport = this.getCanvasViewport();
+      if (!(0, _viewport.viewportEquals)(this.viewport, viewport)) {
+        this.onViewportResize(viewport, e.gl);
+      }
+      this.drawers.forEach(drawer => !drawer.disabled && drawer.update(e));
+    }
+  }
+
+  onViewportResize(viewport, gl) {
+    this.viewport = viewport;
+    if (gl) {
+      gl.viewport(0, 0, viewport.width, viewport.height);
+    }
+    this.drawers.forEach(drawer => {
+      drawer.viewportResize(viewport);
+      drawer.invalid();
+    });
+  }
+
+  getCanvasParentViewport() {
+    let p = this.canvas.parentElement;
+    if (p) {
+      let isScrollSize = this.canvasDisplayMode == CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL;
+      let width = isScrollSize ? p.scrollWidth : p.clientWidth;
+      let height = isScrollSize ? p.scrollHeight : p.clientHeight;
+      return (0, _viewport.createViewport)(width, height, this.dpi);
+    }
+    return (0, _viewport.createViewport)(0, 0, this.dpi);
+  }
+
+  alignCanvas() {
+    let extendScroll = this.canvasDisplayMode == CANVAS_DISPLAY_MODE_FULL_CONTENT_SCROLL;
+    if (this.canvasDisplayMode == CANVAS_DISPLAY_MODE_FULL_SCREEN || extendScroll) {
+      (0, _viewport.alignCanvas)(this.canvas, { extendScroll });
+    }
+  }
+
+  getCanvasViewport() {
+    let cvs = this.canvas;
+    return (0, _viewport.createViewport)(cvs.width, cvs.height, this.dpi);
+  }
+}
+exports.GLRenderPipeline = GLRenderPipeline;
 
 },{"8":8}],3:[function(require,module,exports){
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var ANIMATION_NONE=exports.ANIMATION_NONE=0,ANIMATION_SNOW=exports.ANIMATION_SNOW=1,ANIMATION_STAR=exports.ANIMATION_STAR=2,ANIMATION_MOON=exports.ANIMATION_MOON=4,ANIMATION_SUN=exports.ANIMATION_SUN=8,ANIMATION_RAIN=exports.ANIMATION_RAIN=16;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * Created by brian on 17/03/2017.
+ */
+const ANIMATION_NONE = exports.ANIMATION_NONE = 0;
+const ANIMATION_SNOW = exports.ANIMATION_SNOW = 1;
+const ANIMATION_STAR = exports.ANIMATION_STAR = 1 << 1;
+const ANIMATION_MOON = exports.ANIMATION_MOON = 1 << 2;
+const ANIMATION_SUN = exports.ANIMATION_SUN = 1 << 3;
+const ANIMATION_RAIN = exports.ANIMATION_RAIN = 1 << 4;
 
 },{}],4:[function(require,module,exports){
-'use strict';var _createClass=function(){function a(b,c){for(var f,d=0;d<c.length;d++)f=c[d],f.enumerable=f.enumerable||!1,f.configurable=!0,'value'in f&&(f.writable=!0),Object.defineProperty(b,f.key,f)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),_get=function a(b,c,d){null===b&&(b=Function.prototype);var f=Object.getOwnPropertyDescriptor(b,c);if(f===void 0){var g=Object.getPrototypeOf(b);return null===g?void 0:a(g,c,d)}if('value'in f)return f.value;var h=f.get;return void 0===h?void 0:h.call(d)},_shader=require(5),shader=_interopRequireWildcard(_shader),_GLDrawer2=require(1);Object.defineProperty(exports,'__esModule',{value:!0}),exports.WaveStage=void 0;function _interopRequireWildcard(a){if(a&&a.__esModule)return a;var b={};if(null!=a)for(var c in a)Object.prototype.hasOwnProperty.call(a,c)&&(b[c]=a[c]);return b.default=a,b}function _defineProperty(a,b,c){return b in a?Object.defineProperty(a,b,{value:c,enumerable:!0,configurable:!0,writable:!0}):a[b]=c,a}function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError('Cannot call a class as a function')}function _possibleConstructorReturn(a,b){if(!a)throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');return b&&('object'==typeof b||'function'==typeof b)?b:a}function _inherits(a,b){if('function'!=typeof b&&null!==b)throw new TypeError('Super expression must either be null or a function, not '+typeof b);a.prototype=Object.create(b&&b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}}),b&&(Object.setPrototypeOf?Object.setPrototypeOf(a,b):a.__proto__=b)}var TEX_DATA_FORMAT=Flip.GL.FLOAT,WaveStage=exports.WaveStage=function(a){function b(){return _classCallCheck(this,b),_possibleConstructorReturn(this,(b.__proto__||Object.getPrototypeOf(b)).apply(this,arguments))}return _inherits(b,a),_createClass(b,[{key:'createScenes',value:function createScenes(c){var d=c.waveSpeed||1,f=c.aspectRatio||1;this._clock=new Flip.Clock({duration:90,delegate:this});var g=this.waterSampler=createFloatSampler('uWater',{width:1,height:1,data:new Float32Array(4)}),h=this.frambuffer=new Flip.GL.FrameBuffer({dataFormat:TEX_DATA_FORMAT}),j=new Flip.GL.Scene({name:'drop',vertexShader:shader.QUAD_VERTEX_SHADER,fragShader:shader.DROP_FRAG_SHADER});j.addBinder(j.buildBinder({aQuad:new Float32Array([-1,-1,1,-1,-1,1,1,1]),uAspectRatio:f}));var k=new Flip.GL.Scene({name:'update',vertexShader:shader.QUAD_VERTEX_SHADER,fragShader:shader.UPDATE_FRAG_SHADER});k.addBinder(k.buildBinder({uTexSize:[0,0],uWaveSpeed:d,uAspectRatio:f,aQuad:new Float32Array([-1,-1,1,-1,-1,1,1,1])})),k.add(new Flip.GL.Mesh({drawCount:4,primitive:Flip.GL.TRIANGLE_STRIP,beforeDraw:function beforeDraw(m,n){g.bind(m,n),h.bind(m,n)},afterDraw:function afterDraw(m){switchSampler2DTextureWithFBO(g,h),h.unbind(m)}}));var l=new Flip.GL.Scene({name:'refract',vertexShader:shader.QUAD_VERTEX_SHADER,fragShader:shader.REFRACT_FRAG_SHADER});return l.addBinder(l.buildBinder(_defineProperty({uTexSize:[0,0],uBackground0:null,uBackground1:null,uBgTransparent:0,uWaveSpeed:d,uAspectRatio:f},g.name,g))),l.add(new Flip.GL.Mesh({drawCount:4,primitive:Flip.GL.TRIANGLE_STRIP})),[j,k,l]}},{key:'onClockUpdate',value:function onClockUpdate(){this.invalid()}},{key:'update',value:function update(c){_get(b.prototype.__proto__||Object.getPrototypeOf(b.prototype),'update',this).call(this,c),this._clock.update(c)}},{key:'addDrop',value:function addDrop(c){var d=this.getScene('drop'),f=this.waterSampler,g=this.frambuffer;d.add(new Flip.GL.Mesh({drawCount:4,primitive:Flip.GL.TRIANGLE_STRIP,binder:d.buildBinder({uCenter:c.center,uRadius:c.radius,uStrength:c.strength}),beforeDraw:function beforeDraw(h,j){f.bind(h,j),g.bind(h,j)},afterDraw:function afterDraw(h){switchSampler2DTextureWithFBO(f,g),g.unbind(h),d.remove(this)}})),this._clock.restart()}},{key:'transitionBackgroundAsync',value:function transitionBackgroundAsync(c,d){var f=2<arguments.length&&void 0!==arguments[2]?arguments[2]:.7;this.setBackground(c,d);var g=this;return Flip.animate({duration:f,onUpdate:function onUpdate(){g.backgroundTransitionPercent=this.percent},onEnd:function onEnd(){g.setBackground(d,d)}}).promise}},{key:'setBackground',value:function setBackground(c,d){var f=this.getScene('refract');f.binder.uBackground0.source=c,f.binder.uTexSize.value=[c.width,c.height],d&&(f.binder.uBackground1.source=d),this.setVecUniform('update','uTexSize',[c.width,c.height])}},{key:'backgroundTransitionPercent',set:function set(c){this.getScene('refract').binder.uBgTransparent.value=c,this.invalid()}},{key:'aspectRatio',set:function set(c){this.setVecUniform('update','uAspectRatio',+c),this.setVecUniform('drop','uAspectRatio',+c)}},{key:'waveSpeed',set:function set(c){this.setVecUniform('update','uWaveSpeed',+c),this.setVecUniform('refract','uWaveSpeed',+c)}}]),b}(_GLDrawer2.GLDrawer);function switchSampler2DTextureWithFBO(a,b){var c=b.texture;b.texture=a.texture,a.texture=c,a.source=null}function createFloatSampler(a,b){return new Flip.GL.Sampler2D({dataFormat:TEX_DATA_FORMAT,name:a,source:b||null})}
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.WaveStage = undefined;
+
+var _shader = require(5);
+
+var shader = _interopRequireWildcard(_shader);
+
+var _GLDrawer = require(1);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/**
+ * Created by brian on 04/02/2017.
+ */
+const TEX_DATA_FORMAT = Flip.GL.FLOAT;
+class WaveStage extends _GLDrawer.GLDrawer {
+
+  createScenes(arg) {
+    let uWaveSpeed = arg.waveSpeed || 1;
+    let uAspectRatio = arg.aspectRatio || 1;
+    this._clock = new Flip.Clock({ duration: 90, delegate: this });
+    let waterSampler = this.waterSampler = createFloatSampler('uWater', {
+      width: 1,
+      height: 1,
+      data: new Float32Array(4)
+    });
+    let framebuffer = this.frambuffer = new Flip.GL.FrameBuffer({ dataFormat: TEX_DATA_FORMAT });
+    let dropScene = new Flip.GL.Scene({
+      name: 'drop',
+      vertexShader: shader.QUAD_VERTEX_SHADER,
+      fragShader: shader.DROP_FRAG_SHADER
+    });
+    dropScene.addBinder(dropScene.buildBinder({
+      aQuad: new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
+      uAspectRatio
+    }));
+
+    let updateScene = new Flip.GL.Scene({
+      name: 'update',
+      vertexShader: shader.QUAD_VERTEX_SHADER,
+      fragShader: shader.UPDATE_FRAG_SHADER
+    });
+    updateScene.addBinder(updateScene.buildBinder({
+      uTexSize: [0, 0],
+      uWaveSpeed,
+      uAspectRatio,
+      aQuad: new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1])
+    }));
+    updateScene.add(new Flip.GL.Mesh({
+      drawCount: 4,
+      primitive: Flip.GL.TRIANGLE_STRIP,
+      beforeDraw(gl, state) {
+        waterSampler.bind(gl, state);
+        framebuffer.bind(gl, state);
+      },
+      afterDraw(gl, state) {
+        switchSampler2DTextureWithFBO(waterSampler, framebuffer);
+        framebuffer.unbind(gl);
+      }
+    }));
+
+    let refractScene = new Flip.GL.Scene({
+      name: 'refract',
+      vertexShader: shader.QUAD_VERTEX_SHADER,
+      fragShader: shader.REFRACT_FRAG_SHADER
+    });
+    refractScene.addBinder(refractScene.buildBinder({
+      uTexSize: [0, 0],
+      uBackground0: null,
+      uBackground1: null,
+      uBgTransparent: 0,
+      uWaveSpeed,
+      uAspectRatio,
+      [waterSampler.name]: waterSampler
+    }));
+    refractScene.add(new Flip.GL.Mesh({
+      drawCount: 4,
+      primitive: Flip.GL.TRIANGLE_STRIP
+    }));
+    return [dropScene, updateScene, refractScene];
+  }
+
+  onClockUpdate() {
+    this.invalid();
+  }
+
+  update(e) {
+    super.update(e);
+    this._clock.update(e);
+  }
+
+  addDrop(drop) {
+    let dropScene = this.getScene('drop');
+    let waterSampler = this.waterSampler;
+    let framebuffer = this.frambuffer;
+    dropScene.add(new Flip.GL.Mesh({
+      drawCount: 4,
+      primitive: Flip.GL.TRIANGLE_STRIP,
+      binder: dropScene.buildBinder({
+        uCenter: drop.center,
+        uRadius: drop.radius,
+        uStrength: drop.strength
+      }),
+      beforeDraw(gl, state) {
+        waterSampler.bind(gl, state);
+        framebuffer.bind(gl, state);
+      },
+      afterDraw(gl, state) {
+        switchSampler2DTextureWithFBO(waterSampler, framebuffer);
+        framebuffer.unbind(gl);
+        dropScene.remove(this);
+      }
+    }));
+    this._clock.restart();
+  }
+
+  transitionBackgroundAsync(img0, img1, duration = .7) {
+    this.setBackground(img0, img1);
+    let self = this;
+    return Flip.animate({
+      duration,
+      onUpdate() {
+        self.backgroundTransitionPercent = this.percent;
+      },
+      onEnd() {
+        self.setBackground(img1, img1);
+      }
+    }).promise;
+  }
+
+  setBackground(image0, image1) {
+    let scene = this.getScene('refract');
+    scene.binder['uBackground0'].source = image0;
+    scene.binder['uTexSize'].value = [image0.width, image0.height];
+    if (image1) {
+      scene.binder['uBackground1'].source = image1;
+    }
+    this.setVecUniform('update', 'uTexSize', [image0.width, image0.height]);
+  }
+
+  set backgroundTransitionPercent(v) {
+    this.getScene('refract').binder['uBgTransparent'].value = v;
+    this.invalid();
+  }
+
+  set aspectRatio(v) {
+    this.setVecUniform('update', 'uAspectRatio', +v);
+    this.setVecUniform('drop', 'uAspectRatio', +v);
+  }
+
+  set waveSpeed(v) {
+    this.setVecUniform('update', 'uWaveSpeed', +v);
+    this.setVecUniform('refract', 'uWaveSpeed', +v);
+  }
+}
+exports.WaveStage = WaveStage;
+function switchSampler2DTextureWithFBO(sampler, fb) {
+  let t = fb.texture;
+  fb.texture = sampler.texture;
+  sampler.texture = t;
+  sampler.source = null;
+}
+function createFloatSampler(name, source) {
+  return new Flip.GL.Sampler2D({
+    dataFormat: TEX_DATA_FORMAT,
+    //flipY: false,
+    name,
+    source: source || null
+  });
+}
 
 },{"1":1,"5":5}],5:[function(require,module,exports){
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var QUAD_VERTEX_SHADER=exports.QUAD_VERTEX_SHADER="\nprecision mediump float;\nattribute vec2 aQuad;\nvarying vec2 vTexCoord;\nvoid main(){\n  vTexCoord = aQuad/2. + .5;\n  gl_Position = vec4(aQuad, 0.0, 1.0);\n}\n",DROP_FRAG_SHADER=exports.DROP_FRAG_SHADER="\nprecision mediump float;\n\nconst float PI = 3.141592653589793;\nvarying vec2 vTexCoord;\nuniform sampler2D uWater;\nuniform vec2 uCenter;\nuniform float uRadius;\nuniform float uStrength;\nuniform float uAspectRatio;\n\nvoid main() {\n  vec4 info = texture2D(uWater, vTexCoord);\n  vec2 dis = vTexCoord - uCenter;\n  dis.y /= uAspectRatio; \n  float drop = max(0.0, 1.0 - length(dis) / uRadius);\n  drop = 1. - cos(drop * PI);\n  info.r += drop * uStrength;\n  info.b = 1. * drop;\n  gl_FragColor = info;\n}\n",UPDATE_FRAG_SHADER=exports.UPDATE_FRAG_SHADER="\nprecision mediump float;\nvarying vec2 vTexCoord;\nuniform sampler2D uWater;\nuniform vec2 uTexSize;\nuniform float uWaveSpeed;\nuniform float uAspectRatio;\n\nvoid main() {\n  vec4 info = texture2D(uWater,vTexCoord);\n  vec2 delta = 1./uTexSize;\n  /* calculate average neighbor height */\n  vec2 dx = vec2(delta.x * uWaveSpeed, 0.0);\n  vec2 dy = vec2(0.0, delta.y * uWaveSpeed * uAspectRatio);\n  vec3 vw = texture2D(uWater, vTexCoord - dx).rgb;\n  vec3 ve = texture2D(uWater, vTexCoord + dx).rgb;\n  vec3 vn = texture2D(uWater, vTexCoord - dy).rgb;\n  vec3 vs = texture2D(uWater, vTexCoord + dy).rgb;\n  vec3 average = (vw+ve+vn+vs) * 0.25;\n  \n  /* change the velocity to move toward the average */\n  info.g += (average.r - info.r) * 2.0;\n  /* attenuate the velocity a little so waves do not last forever */\n  info.g *= 0.99;\n  /* move the vertex along the velocity */\n  info.r += info.g;\n  \n  gl_FragColor = info;\n}\n",VISUALIZE_FRAG_SHADER=exports.VISUALIZE_FRAG_SHADER="\nprecision mediump float;\nvarying vec2 vTexCoord;\nuniform sampler2D uWater;\n\nvoid main(){\n  vec4 info = texture2D(uWater,vTexCoord);\n  gl_FragColor = vec4(vec3(info.r),1.0);\n}\n",REFRACT_FRAG_SHADER=exports.REFRACT_FRAG_SHADER="\nprecision mediump float;\nvarying vec2 vTexCoord;\n\nuniform sampler2D uBackground0;\nuniform sampler2D uBackground1;\nuniform float uBgTransparent;\nuniform sampler2D uWater;\nuniform float uWaveSpeed;\nuniform vec2 uTexSize;\nuniform float uAspectRatio;\n\nvec3 getPoint3D(sampler2D tex,vec2 coord);\nvoid main(){\n  vec3 p0 = getPoint3D(uWater,vTexCoord);\n  vec3 p1 = getPoint3D(uWater,vTexCoord + vec2(0.,1./uTexSize.y * uWaveSpeed * uAspectRatio));\n  vec3 p2 = getPoint3D(uWater,vTexCoord + vec2(1./uTexSize.x * uWaveSpeed,0.));\n  vec3 n = normalize(cross(p0-p1,p0-p2));\n  vec3 light = vec3(0.,0.,-1.);\n  vec3 r = refract(light,n,0.8);\n  float k = r.z ==0.?0.:- p0.z /r.z;\n  vec3 pos = p0 + k * r;\n  gl_FragColor = texture2D(uBackground1,pos.xy) * uBgTransparent + (1.-uBgTransparent) * texture2D(uBackground0,pos.xy);\n}\n\nvec3 getPoint3D(sampler2D tex,vec2 coord){\n  float height = texture2D(tex,coord).r;\n  return vec3(coord,height);\n}\n\n";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * Created by brian on 04/02/2017.
+ */
+const QUAD_VERTEX_SHADER = exports.QUAD_VERTEX_SHADER = `
+precision mediump float;
+attribute vec2 aQuad;
+varying vec2 vTexCoord;
+void main(){
+  vTexCoord = aQuad/2. + .5;
+  gl_Position = vec4(aQuad, 0.0, 1.0);
+}
+`;
+const DROP_FRAG_SHADER = exports.DROP_FRAG_SHADER = `
+precision mediump float;
+
+const float PI = 3.141592653589793;
+varying vec2 vTexCoord;
+uniform sampler2D uWater;
+uniform vec2 uCenter;
+uniform float uRadius;
+uniform float uStrength;
+uniform float uAspectRatio;
+
+void main() {
+  vec4 info = texture2D(uWater, vTexCoord);
+  vec2 dis = vTexCoord - uCenter;
+  dis.y /= uAspectRatio; 
+  float drop = max(0.0, 1.0 - length(dis) / uRadius);
+  drop = 1. - cos(drop * PI);
+  info.r += drop * uStrength;
+  info.b = 1. * drop;
+  gl_FragColor = info;
+}
+`;
+//(height,vel)
+const UPDATE_FRAG_SHADER = exports.UPDATE_FRAG_SHADER = `
+precision mediump float;
+varying vec2 vTexCoord;
+uniform sampler2D uWater;
+uniform vec2 uTexSize;
+uniform float uWaveSpeed;
+uniform float uAspectRatio;
+
+void main() {
+  vec4 info = texture2D(uWater,vTexCoord);
+  vec2 delta = 1./uTexSize;
+  /* calculate average neighbor height */
+  vec2 dx = vec2(delta.x * uWaveSpeed, 0.0);
+  vec2 dy = vec2(0.0, delta.y * uWaveSpeed * uAspectRatio);
+  vec3 vw = texture2D(uWater, vTexCoord - dx).rgb;
+  vec3 ve = texture2D(uWater, vTexCoord + dx).rgb;
+  vec3 vn = texture2D(uWater, vTexCoord - dy).rgb;
+  vec3 vs = texture2D(uWater, vTexCoord + dy).rgb;
+  vec3 average = (vw+ve+vn+vs) * 0.25;
+  
+  /* change the velocity to move toward the average */
+  info.g += (average.r - info.r) * 2.0;
+  /* attenuate the velocity a little so waves do not last forever */
+  info.g *= 0.99;
+  /* move the vertex along the velocity */
+  info.r += info.g;
+  
+  gl_FragColor = info;
+}
+`;
+const VISUALIZE_FRAG_SHADER = exports.VISUALIZE_FRAG_SHADER = `
+precision mediump float;
+varying vec2 vTexCoord;
+uniform sampler2D uWater;
+
+void main(){
+  vec4 info = texture2D(uWater,vTexCoord);
+  gl_FragColor = vec4(vec3(info.r),1.0);
+}
+`;
+
+const REFRACT_FRAG_SHADER = exports.REFRACT_FRAG_SHADER = `
+precision mediump float;
+varying vec2 vTexCoord;
+
+uniform sampler2D uBackground0;
+uniform sampler2D uBackground1;
+uniform float uBgTransparent;
+uniform sampler2D uWater;
+uniform float uWaveSpeed;
+uniform vec2 uTexSize;
+uniform float uAspectRatio;
+
+vec3 getPoint3D(sampler2D tex,vec2 coord);
+void main(){
+  vec3 p0 = getPoint3D(uWater,vTexCoord);
+  vec3 p1 = getPoint3D(uWater,vTexCoord + vec2(0.,1./uTexSize.y * uWaveSpeed * uAspectRatio));
+  vec3 p2 = getPoint3D(uWater,vTexCoord + vec2(1./uTexSize.x * uWaveSpeed,0.));
+  vec3 n = normalize(cross(p0-p1,p0-p2));
+  vec3 light = vec3(0.,0.,-1.);
+  vec3 r = refract(light,n,0.8);
+  float k = r.z ==0.?0.:- p0.z /r.z;
+  vec3 pos = p0 + k * r;
+  gl_FragColor = texture2D(uBackground1,pos.xy) * uBgTransparent + (1.-uBgTransparent) * texture2D(uBackground0,pos.xy);
+}
+
+vec3 getPoint3D(sampler2D tex,vec2 coord){
+  float height = texture2D(tex,coord).r;
+  return vec3(coord,height);
+}
+
+`;
 
 },{}],6:[function(require,module,exports){
-'use strict';Object.defineProperty(exports,'__esModule',{value:!0}),exports.loadImageAsync=loadImageAsync;function loadImageAsync(a){if('string'==typeof a){var b=a;a=new Image,a.src=b,a.crossOrigin='*'}return a.complete?Promise.resolve(a):new Promise(function(b,c){a.addEventListener('load',function(){return b(a)}),a.addEventListener('error',c)})}
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.loadImageAsync = loadImageAsync;
+/**
+ * Created by brian on 21/03/2017.
+ */
+function loadImageAsync(img) {
+  if (typeof img === "string") {
+    let src = img;
+    img = new Image();
+    img.src = src;
+    img.crossOrigin = '*';
+  }
+  if (img.complete) {
+    return Promise.resolve(img);
+  }
+  return new Promise((res, rej) => {
+    img.addEventListener('load', () => res(img));
+    img.addEventListener('error', rej);
+  });
+}
 
 },{}],7:[function(require,module,exports){
-'use strict';Object.defineProperty(exports,'__esModule',{value:!0}),exports.init=init,exports.setGLCanvasSize=setGLCanvasSize;var _GLRenderPipeline=require(2),task=void 0;function init(a){var b=a.fullScreen,c=a.drawers,e=a.renders,f=Flip.$('#gl-cvs');task=new _GLRenderPipeline.GLRenderPipeline({name:'test-gl',canvas:f,display:b?_GLRenderPipeline.CANVAS_DISPLAY_MODE_FULL_SCREEN:_GLRenderPipeline.CANVAS_DISPLAY_MODE_ORIGIN,clear:Flip.GL.COLOR_BUFFER_BIT}),task.init({preserveDrawingBuffer:!0}),e&&e.forEach(function(g){return task.add(g)}),Flip.instance.add(task),c.forEach(function(g){return task.addDrawer(g)})}function setGLCanvasSize(a,b){var c=Flip.$('#gl-cvs');c.width=a,c.height=b}
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.init = init;
+exports.setGLCanvasSize = setGLCanvasSize;
+
+var _GLRenderPipeline = require(2);
+
+let task; /**
+           * Created by brian on 13/03/2017.
+           */
+function init({ fullScreen, drawers, renders }) {
+  const canvas = Flip.$('#gl-cvs');
+  task = new _GLRenderPipeline.GLRenderPipeline({
+    name: 'test-gl',
+    canvas,
+    display: fullScreen ? _GLRenderPipeline.CANVAS_DISPLAY_MODE_FULL_SCREEN : _GLRenderPipeline.CANVAS_DISPLAY_MODE_ORIGIN,
+    clear: Flip.GL.COLOR_BUFFER_BIT
+  });
+  task.init({ preserveDrawingBuffer: true });
+  if (renders) {
+    renders.forEach(r => task.add(r));
+  }
+  Flip.instance.add(task);
+  drawers.forEach(d => task.addDrawer(d));
+}
+function setGLCanvasSize(width, height) {
+  let cvs = Flip.$('#gl-cvs');
+  cvs.width = width;
+  cvs.height = height;
+}
 
 },{"2":2}],8:[function(require,module,exports){
 (function (global){
-'use strict';var _Mathceil=Math.ceil;Object.defineProperty(exports,'__esModule',{value:!0}),exports.createViewport=createViewport,exports.viewportEquals=viewportEquals,exports.alignCanvas=alignCanvas;var defaultDPI=exports.defaultDPI=global.devicePixelRatio||1;function createViewport(a,b,c){a=_Mathceil(a),b=_Mathceil(b);var d=a/b;return c=c||defaultDPI,Object.freeze({width:+a,height:+b,aspectRatio:d,displayWidth:_Mathceil(a/c),displayHeight:_Mathceil(b/c)})}function viewportEquals(a,b){return a&&b&&a.width===b.width&&a.height===b.height}function alignCanvas(a){var b=1<arguments.length&&arguments[1]!==void 0?arguments[1]:{},c=b.element,d=c===void 0?document.documentElement:c,e=b.dpi,f=e===void 0?defaultDPI:e,g=b.extendScroll,h=a.style,i=d.clientWidth,j=d.clientHeight;a.width=i*f,a.height=j*f,h.width=i+'px',h.height=j+'px',g&&(h.position='fixed',h.left=0,h.top=0)}
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createViewport = createViewport;
+exports.viewportEquals = viewportEquals;
+exports.alignCanvas = alignCanvas;
+let defaultDPI = exports.defaultDPI = global.devicePixelRatio || 1; /**
+                                                                     * Created by brian on 8/15/16.
+                                                                     */
+function createViewport(width, height, dpi) {
+  width = Math.ceil(width);
+  height = Math.ceil(height);
+  let aspectRatio = width / height;
+  dpi = dpi || defaultDPI;
+  return Object.freeze({
+    width: +width,
+    height: +height,
+    aspectRatio,
+    displayWidth: Math.ceil(width / dpi),
+    displayHeight: Math.ceil(height / dpi)
+  });
+}
+function viewportEquals(v1, v2) {
+  return v1 && v2 && v1.width === v2.width && v1.height === v2.height;
+}
+function alignCanvas(canvas, { element = document.documentElement, dpi = defaultDPI, extendScroll } = {}) {
+  let style = canvas.style;
+  let width = element.clientWidth;
+  let height = element.clientHeight;
+  canvas.width = width * dpi;
+  canvas.height = height * dpi;
+  style.width = width + 'px';
+  style.height = height + 'px';
+  if (extendScroll) {
+    style.position = 'fixed';
+    style.left = 0;
+    style.top = 0;
+  }
+}
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],9:[function(require,module,exports){
-'use strict';var _WaveStage=require(4),_image=require(6),_setup=require(7),images=['http://img03.taobaocdn.com/tfscom/TB1zWcAPVXXXXcyXVXXxKNpFXXX.jpeg','http://img01.taobaocdn.com:80/tfscom/TB1wXlFLXXXXXXdXVXXxKNpFXXX.jpeg'],WAVE_STRENGTH=0.1,WAVE_RADIUS=0.04;Promise.all(images.map(_image.loadImageAsync)).then(function(a){var b=new _WaveStage.WaveStage({waveSpeed:8});b.setBackground(a[0],a[1]),(0,_setup.init)({fullScreen:!0,drawers:[b]}),b.addDrop({center:[0.5,0.5],radius:WAVE_RADIUS,strength:WAVE_STRENGTH})});
+'use strict';
+
+var _WaveStage = require(4);
+
+var _image = require(6);
+
+var _setup = require(7);
+
+const images = ['http://img03.taobaocdn.com/tfscom/TB1zWcAPVXXXXcyXVXXxKNpFXXX.jpeg', 'http://img01.taobaocdn.com:80/tfscom/TB1wXlFLXXXXXXdXVXXxKNpFXXX.jpeg']; /**
+                                                                                                                                                                 * Created by brian on 21/03/2017.
+                                                                                                                                                                 */
+
+let WAVE_STRENGTH = 0.1;
+let WAVE_RADIUS = 0.04;
+
+Promise.all(images.map(_image.loadImageAsync)).then(function (imgs) {
+  let wave = new _WaveStage.WaveStage({
+    waveSpeed: 8
+  });
+  wave.setBackground(imgs[0], imgs[1]);
+  (0, _setup.init)({
+    fullScreen: true,
+    drawers: [wave]
+  });
+  wave.addDrop({
+    center: [.5, .5],
+    radius: WAVE_RADIUS,
+    strength: WAVE_STRENGTH
+  });
+});
 
 },{"4":4,"6":6,"7":7}]},{},[9]);
