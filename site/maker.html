@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Marker</title>
+    <style>
+        body {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: 50%;
+        }
+        
+        body.night {
+            background-image: url('../images/marker-moon.jpg');
+        }
+        
+        body.snow {
+            background-image: url('../images/marker-snow.jpg');
+        }
+        
+        body.rain {
+            background-image: url('../images/marker-rain.jpg');
+        }
+        
+        body.sun {
+            background-image: url('../images/marker-sun.jpg');
+        }
+    </style>
+    <script>
+      window.onload = function () {
+        document.body.style.width = document.documentElement.clientWidth + 'px';
+        document.body.style.height = document.documentElement.clientHeight + 'px';
+        var className = 'snow';
+        if (/sun/i.test(location.hash)) {
+          className = 'sun';
+        } else if (/rain/i.test(location.hash)) {
+          className = 'rain';
+        }
+        else if (/night/.test(location.hash)) {
+          className = 'night';
+        }
+        document.body.classList.add(className);
+      }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

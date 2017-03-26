@@ -11,18 +11,18 @@ export type NoiseData={
 export function randomNoiseData({ easeFunc, format, size=256, min=0, max=1 }={}):NoiseData {
   let dataPerChannel;
   switch (format) {
-    case WebGLRenderingContext.LUMINANCE:
-    case WebGLRenderingContext.ALPHA:
+    case Flip.GL.LUMINANCE:
+    case Flip.GL.ALPHA:
       dataPerChannel = 1;
       break;
-    case WebGLRenderingContext.RGB:
+    case Flip.GL.RGB:
       dataPerChannel = 3;
       break;
-    case WebGLRenderingContext.RGBA:
+    case Flip.GL.RGBA:
       dataPerChannel = 4;
       break;
     default:
-      format = WebGLRenderingContext.LUMINANCE;
+      format = Flip.GL.LUMINANCE;
       dataPerChannel = 1;
       break;
   }

@@ -27,7 +27,7 @@ export class MoonDrawer extends GLDrawer {
       uPointColor: [1, 1, 1, 1],
       blend(gl){
         gl.enable(gl.BLEND);
-        gl.blendFunc(gl.SRC_ALPHA, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
       }
     }));
     scene.add(createPointsGeometry());
@@ -76,7 +76,7 @@ export class MoonDrawer extends GLDrawer {
 }
 function createPointsGeometry() {
   return new Flip.GL.Mesh({
-    primitive: WebGLRenderingContext.POINTS,
+    primitive: Flip.GL.POINTS,
     drawCount: 1
   })
 }

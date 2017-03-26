@@ -47,15 +47,15 @@ export class RainRender {
     let vecSampler = this._vecSampler = createFloatSampler('uVecBuffer');
     let texIndexBuffer = this._texIndexBuffer = new Flip.GL.Buffer({ data: new Float32Array(0) });
     let frameBuffer = this._framebuffer = new Flip.GL.FrameBuffer({
-      dataFormat: WebGLRenderingContext.FLOAT,
+      dataFormat: Flip.GL.FLOAT,
       textureParam: {
-        TEXTURE_MAG_FILTER: WebGLRenderingContext.NEAREST,
-        TEXTURE_MIN_FILTER: WebGLRenderingContext.NEAREST
+        TEXTURE_MAG_FILTER: Flip.GL.NEAREST,
+        TEXTURE_MIN_FILTER: Flip.GL.NEAREST
       }
     });
     let aTexIndex = new Flip.GL.Attribute({ name: 'aTexIndex', data: texIndexBuffer });
     let posUpdateGeo = this._posUpdateGeometry = new Flip.GL.Mesh({
-      primitive: WebGLRenderingContext.POINTS,
+      primitive: Flip.GL.POINTS,
       binder: {
         [posSampler.name]: posSampler,
         [vecSampler.name]: vecSampler,
@@ -64,7 +64,7 @@ export class RainRender {
       }
     });
     let vecUpdateGeo = this._vecUpdateGeometry = new Flip.GL.Mesh({
-      primitive: WebGLRenderingContext.POINTS,
+      primitive: Flip.GL.POINTS,
       binder: {
         [posSampler.name]: posSampler,
         [vecSampler.name]: vecSampler,
@@ -76,7 +76,7 @@ export class RainRender {
     swapTextureAfterDraw(vecUpdateGeo, vecSampler, frameBuffer);
     swapTextureAfterDraw(posUpdateGeo, posSampler, frameBuffer);
     this._drawGeometry = new Flip.GL.Mesh({
-      primitive: WebGLRenderingContext.POINTS,
+      primitive: Flip.GL.POINTS,
       binder: {
         aTexIndex,
         aPointSize: new Flip.GL.Attribute({ name: 'aPointSize', data: new Float32Array(0) }),
@@ -99,10 +99,10 @@ export class RainRender {
   setEncodedPoints(arg: EncodedPoints): RainRender {
     let { width, height }=arg;
     this._posSampler.source = {
-      width, height, data: arg.pos, format: WebGLRenderingContext.RGB
+      width, height, data: arg.pos, format: Flip.GL.RGB
     };
     this._vecSampler.source = {
-      width, height, data: arg.vec, format: WebGLRenderingContext.RGB
+      width, height, data: arg.vec, format: Flip.GL.RGB
     };
     this._framebuffer.width = width * SAMPLER_DATA_POINT_SIZE;
     this._framebuffer.height = height * SAMPLER_DATA_POINT_SIZE;
@@ -180,12 +180,12 @@ export function mapColorVal(number) {
 export function createFloatSampler(name, source) {
 
   return new Flip.GL.Sampler2D({
-    dataFormat: WebGLRenderingContext.FLOAT,
+    dataFormat: Flip.GL.FLOAT,
     flipY: false,
     name,
     textureParam: {
-      TEXTURE_MAG_FILTER: WebGLRenderingContext.NEAREST,
-      TEXTURE_MIN_FILTER: WebGLRenderingContext.NEAREST
+      TEXTURE_MAG_FILTER: Flip.GL.NEAREST,
+      TEXTURE_MIN_FILTER: Flip.GL.NEAREST
     },
     source: source || null
   })

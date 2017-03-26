@@ -39,7 +39,7 @@ export class StarDrawer extends GLDrawer {
       name: 'main'
     });
     this.geometry = new Flip.GL.Mesh({
-      primitive: WebGLRenderingContext.POINTS
+      primitive: Flip.GL.POINTS
     });
     let cameraOptions: Flip.GL.Camera = arg.camera || {};
     let camera = this.camera = new Flip.GL.Camera({

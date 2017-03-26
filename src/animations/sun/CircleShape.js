@@ -24,7 +24,7 @@ export class CircleShape extends Flip.GL.Mesh {
 
   constructor(arg: CircleShapeConstructor) {
     super({
-      primitive: WebGLRenderingContext.TRIANGLE_FAN,
+      primitive: Flip.GL.TRIANGLE_FAN,
       drawCount: arg.triangleCount || DEFAULT_SECTION_COUNT
     });
     this.radius = arg.radius || DEF_CONSTRUCTOR.radius;

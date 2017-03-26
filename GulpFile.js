@@ -7,12 +7,17 @@ let gulp = require('gulp');
 let less = require('gulp-less');
 let rename = require('gulp-rename');
 let bundleCollapse = require('bundle-collapser/plugin');
-let exec = require('child_process').exec;
 gulp.task('js', buildScript({
-  src: 'src/*.js',
+  src: ['src/*.js', 'lib/Flip.js'],
   dest: 'build/js',
   rename: false,
   watch: true
+}));
+gulp.task('pub:js', buildScript({
+  src: ['src/*.js', 'lib/Flip.js'],
+  dest: 'build/js',
+  babel: 'publish',
+  rename: false
 }));
 function buildScript(options) {
   return watchify(function (watchify) {

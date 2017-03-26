@@ -2,8 +2,7 @@
   "name": "web-vr",
   "version": "0.0.1",
   "description": "Marker based AR demo",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/brianZeng/web-ar.git"
@@ -20,6 +19,8 @@
     "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-plugin-transform-flow-strip-types": "^6.8.0",
+    "babel-preset-babili": "0.0.12",
+    "babel-preset-es2015": "^6.24.0",
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "browserify-css": "^0.9.1",

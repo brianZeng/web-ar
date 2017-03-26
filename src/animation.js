@@ -14,11 +14,11 @@ export * from'./animations';
 import { WaveStage } from './animations/wave/WaveStage';
 import { loadImageAsync } from './util/image';
 const BG_IMGS = {
-  night: 'http://img03.taobaocdn.com/tfscom/TB1zWcAPVXXXXcyXVXXxKNpFXXX.jpeg',
-  snow: 'http://img01.taobaocdn.com:80/tfscom/TB1wXlFLXXXXXXdXVXXxKNpFXXX.jpeg',
-  sun: 'http://img02.taobaocdn.com:80/tfscom/TB1RbeXNFXXXXX.aXXXxKNpFXXX.jpeg',
-  rain: 'http://img02.taobaocdn.com:80/tfscom/TB14KJiOpXXXXXGXXXXxKNpFXXX.jpeg',
-  none: 'http://img01.taobaocdn.com:80/tfscom/TB1fVSwQXXXXXclapXXxKNpFXXX.jpeg'
+  night: Flip.$('img.night'),
+  snow: Flip.$('img.snow'),
+  sun: Flip.$('img.sun'),
+  rain: Flip.$('img.rain'),
+  none: Flip.$('img.none')
 };
 let wave = new WaveStage({ waveSpeed: 8 });
 let mng = new AnimationManager();
