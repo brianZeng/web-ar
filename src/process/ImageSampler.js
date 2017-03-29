@@ -41,10 +41,10 @@ export class ImageSampler {
     let imgCountPerClass = images[0].length;
     let sampleCountPerImage = arg.count;
     let sampleArg: SampleParam = {
-      count: 40,
-      rotate: arg.rotate || [-Math.PI / 18, Math.PI / 18],
-      scale: arg.scale || [0.85, 1.15],
-      translate: arg.translate || [-6, 6]
+      count: 60,
+      rotate: arg.rotate || [-Math.PI / 10, Math.PI / 10],
+      scale: arg.scale || [0.8, 1.2],
+      translate: arg.translate || [-10, 10]
     };
     if (images.some(imgs => imgs.length != imgCountPerClass)) {
       throw Error('the size of every image class train set should be same,but got:' + images.map(imgs => imgs.length).join(','))
