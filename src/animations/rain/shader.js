@@ -1,9 +1,10 @@
+export const SAMPLER_DATA_POINT_SIZE = 2;
 export const UPDATE_VERTEX_SHADER = `
 precision mediump float;
 
 attribute vec2 aTexIndex;
 varying vec2 vTexIndex;
-const float SAMPLER_DATA_POINT_SIZE = 2.0;
+const float SAMPLER_DATA_POINT_SIZE = ${SAMPLER_DATA_POINT_SIZE.toFixed(1)};
 
 void main(){
   vTexIndex = aTexIndex;

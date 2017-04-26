@@ -1,24 +1,24 @@
 import { parseSqrt } from '../../util/math';
 import { randomColor, parseColor } from '../../util/color';
-export type  PointWithVel ={
-  x:number;
-  y:number;
-  vx:number;
-  vy:number;
-  z?:number;
-  color?:string;
-  size?:number;
-  vz?:number;
+export type  PointWithVel = {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  z?: number;
+  color?: string;
+  size?: number;
+  vz?: number;
 };
-export type EncodedPoints={
+export type EncodedPoints = {
   pos: Float32Array;
   vec: Float32Array;
   color: Float32Array;
   index: Float32Array;
-  size:Float32Array;
-  count:number;
-  width:number;
-  height:number;
+  size: Float32Array;
+  count: number;
+  width: number;
+  height: number;
 }
 export const UPDATE_PHRASE_POS = 0, UPDATE_PHRASE_VEC = 1;
 const SAMPLER_DATA_POINT_SIZE = 2;
@@ -97,7 +97,7 @@ export class RainRender {
   }
 
   setEncodedPoints(arg: EncodedPoints): RainRender {
-    let { width, height }=arg;
+    let { width, height } = arg;
     this._posSampler.source = {
       width, height, data: arg.pos, format: Flip.GL.RGB
     };
@@ -119,14 +119,15 @@ export class RainRender {
 }
 export function encodePoints(points: Array<PointWithVel>): EncodedPoints {
   let particleCount = points.length;
-  let [width, height]=parseSqrt(particleCount);
+  let [width, height] = parseSqrt(particleCount);
   let posBufferData = new Float32Array(width * height * 3);
   let vecBufferData = new Float32Array(width * height * 3);
   let colorBufferData = new Float32Array(width * height * 4);
   let texIndexData = new Float32Array(width * height * 2);
   let pointSizeData = new Float32Array(width * height);
 
-  for (let pointIndex = 0, posBufferIndex = 0, vecBufferIndex = 0, colorBufferIndex = 0, texIndex = 0; pointIndex < particleCount; pointIndex++) {
+  for (let pointIndex = 0, posBufferIndex = 0, vecBufferIndex = 0, colorBufferIndex = 0,
+         texIndex = 0; pointIndex < particleCount; pointIndex++) {
     let point = points[pointIndex];
     let colorComponents = point.color ? parseColor(point.color) : randomColor();
 
@@ -160,7 +161,9 @@ export function encodePoints(points: Array<PointWithVel>): EncodedPoints {
   }
 }
 export function swapTextureAfterDraw(geometry, sampler, frameBuffer) {
+  let lastViewport;
   geometry.beforeDraw = function (gl, state) {
+    lastViewport = gl.getParameter(gl.VIEWPORT);
     gl.viewport(0, 0, frameBuffer._w, frameBuffer._h);
     frameBuffer.bind(gl, state);
   };
@@ -172,13 +175,14 @@ export function swapTextureAfterDraw(geometry, sampler, frameBuffer) {
     frameBuffer.shouldCheckComplete = false;
     sampler.source = null;
     sampler.bind(gl, state);
+    frameBuffer.unbind(gl,state);
+    gl.viewport(lastViewport[0], lastViewport[1], lastViewport[2], lastViewport[3]);
   }
 }
 export function mapColorVal(number) {
   return +( number + 1.0) / 2.0;
 }
 export function createFloatSampler(name, source) {
-
   return new Flip.GL.Sampler2D({
     dataFormat: Flip.GL.FLOAT,
     flipY: false,
